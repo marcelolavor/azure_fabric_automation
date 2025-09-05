@@ -1,0 +1,109 @@
+# Importa tags globais
+module "tags" {
+  source      = "../../global/tags"
+  environment = var.environment
+}
+
+# Workspace principal
+module "workspace" {
+  source      = "../../modules/fabric_workspace"
+  name        = "fabric-${var.environment}-ws"
+  location    = "westeurope"
+  capacity_id = module.capacity.id
+  tags        = module.tags.tags
+
+  role_assignments = [
+    { principal_id = "11111111-2222-3333-4444-555555555555", role = "Admin" },
+    { principal_id = "66666666-7777-8888-9999-000000000000", role = "Contributor" }
+  ]
+}
+
+# Itens do workspace (Lakehouses, Warehouses, Pipelines, Notebooks, Eventstreams, KQL DBs)
+module "items" {
+  source       = "../../modules/fabric_items"
+  workspace_id = module.workspace.id
+  tags         = module.tags.tags
+
+  lakehouses    = ["lakehouse_${var.environment}"]
+  warehouses    = ["wh_${var.environment}"]
+  pipelines     = ["etl_pipeline_${var.environment}"]
+  notebooks     = ["analytics_nb_${var.environment}"]
+  eventstreams  = ["eventstream_logs_${var.environment}"]
+  kql_databases = ["kql_${var.environment}_db"]
+}
+
+# Networking (Managed Private Endpoints + Mounted Data Factories)
+module "networking" {
+  source       = "../../modules/fabric_networking"
+  workspace_id = module.workspace.id
+  tags         = module.tags.tags
+
+  managed_private_endpoints = [
+    {
+      name                    = "mpe-sqlserver-${var.environment}"
+      target_resource_id      = "/subscriptions/xxxx/resourceGroups/rg-sql-${var.environment}/providers/Microsoft.Sql/servers/sql-${var.environment}"
+      target_subresource_type = "sqlServer"
+      request_message         = "Acesso necessário ao SQL Server no ambiente ${var.environment}"
+    },
+    {
+      name                    = "mpe-storage-${var.environment}"
+      target_resource_id      = "/subscriptions/xxxx/resourceGroups/rg-storage-${var.environment}/providers/Microsoft.Storage/storageAccounts/st${var.environment}"
+      target_subresource_type = "blob"
+    }
+  ]
+
+  mounted_data_factories = [
+    {
+      name         = "mdf-adf-${var.environment}"
+      display_name = "ADF ${upper(var.environment)}"
+      format       = "DataFactoryV2"
+      definition   = jsonencode({
+                       dataFactoryId = "/subscriptions/xxxx/resourceGroups/rg-adf-${var.environment}/providers/Microsoft.DataFactory/factories/adf-${var.environment}"
+                     })
+    }
+  ]
+}
+
+# Administração (RBAC extra + Policies)
+module "admin" {
+  source       = "../../modules/fabric_admin"
+  workspace_id = module.workspace.id
+  tags         = module.tags.tags
+
+  role_assignments = [
+    { principal_id = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", role = "Viewer" },
+    { principal_id = "ffffffff-1111-2222-3333-444444444444", role = "Contributor" }
+  ]
+
+  policies = [
+    {
+      name       = "policy-data-classification"
+      definition = jsonencode({
+        rules = [
+          { column = "ssn", classification = "Confidential" },
+          { column = "email", classification = "PII" }
+        ]
+      })
+    },
+    {
+      name       = "policy-data-retention"
+      definition = jsonencode({
+        retention_days = 365
+      })
+    }
+  ]
+}
+
+terraform {
+  required_providers {
+    fabric = {
+      source  = "microsoft/fabric"
+      version = ">= 1.5.0"
+    }
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.43.0"
+    }
+  }
+  required_version = ">= 1.9.0"
+}
