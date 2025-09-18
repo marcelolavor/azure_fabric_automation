@@ -43,6 +43,12 @@ variable "kql_databases" {
   type        = list(string)
   default     = []
 }
+
+variable "eventhouse_id" {
+  description = "ID do Eventhouse para KQL databases"
+  type        = string
+  default     = null
+}
 variable "kql_tables" {
   description = "Lista de KQL tables a criar (requer kql_databases)"
   type        = list(object({

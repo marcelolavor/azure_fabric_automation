@@ -1,7 +1,17 @@
-output "capacity" {
-  description = "Output consolidado da capacity"
-  value       = module.capacity.capacity
-}
+# output "capacity" {
+#   description = "Output consolidado da capacity"
+#   value       = module.capacity.capacity
+# }
+
+# Capacity outputs removidos - não há recurso fabric_capacity no ambiente
+# output "capacity" {
+#   description = "Capacity criada (id e name)"
+#   value = {
+#     id   = fabric_capacity.this.id
+#     name = fabric_capacity.this.name
+#   }
+# }
+
 
 output "workspace" {
   description = "Output consolidado do workspace"

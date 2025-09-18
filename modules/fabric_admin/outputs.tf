@@ -8,12 +8,11 @@ output "admin" {
         role = v.role
       }
     }
-    policies = {
-      for k, v in fabric_policy.workspace_policies :
-      k => {
-        id   = v.id
-        name = v.name
-      }
-    }
+    policies = [for k, v in null_resource.fabric_policies : k]
   }
+}
+
+output "policies_applied" {
+  description = "Lista de policies aplicadas (workaround)"
+  value       = [for k, v in null_resource.fabric_policies : k]
 }

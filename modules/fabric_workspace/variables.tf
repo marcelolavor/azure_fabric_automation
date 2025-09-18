@@ -31,13 +31,14 @@ variable "role_assignments" {
 Lista de atribuições de role no workspace.
 Formato:
 [
-  { principal_id = "<guid>", role = "Admin" },
-  { principal_id = "<guid>", role = "Contributor" }
+  { principal_id = "<guid>", principal_type = "User", role = "Admin" },
+  { principal_id = "<guid>", principal_type = "Group", role = "Contributor" }
 ]
 EOT
   type    = list(object({
-    principal_id = string
-    role         = string
+    principal_id   = string
+    principal_type = string
+    role          = string
   }))
   default = []
 }

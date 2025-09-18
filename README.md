@@ -1,3 +1,8 @@
+[Início](docs/README.md) | [Objetivo](docs/01-objective.md) | [Escopo](docs/02-scope.md) | [Processo](docs/03-process-overview.md) | [Controle de Mudanças](docs/04-change-control.md) | [Riscos](docs/05-risks.md) | [Ferramentas](docs/06-tools.md) | [Timeline](docs/07-timeline.md) | [Critérios de Sucesso](docs/08-success-criteria.md) | 
+[Conclusão](docs/09-conclusion.md) | 
+[Delta Table Files](docs/delta-file-benefits.md)
+
+---
 # Azure Fabric Automation
 Automação de recursos do Azure Fabric usando Terraform, seguindo as melhores práticas de infraestrutura como código (IaC).
 
@@ -98,12 +103,6 @@ terraform apply -auto-approve -var-file="terraform.tfvars"
 terraform output -json | jq
 ```
 
-## ❗ Possíveis erros
-- Error: Module not installed → significa que você esqueceu de rodar terraform init.
-- Error: Authentication failed → verifique se está autenticado no Azure (az login) ou se as credenciais do Service Principal estão corretas.
-
-✅ Após esses passos, o ambiente estará provisionado e os outputs estarão disponíveis para integração com outros sistemas ou verificação manual.
-
 ## 🎯 Boas práticas
 
 - Governança: prevent_destroy = true em PRD para workspaces/capacities.
@@ -124,18 +123,22 @@ Segundo o changelog do release 1.5.0 (04/09/2025), temos suporte aos seguintes r
 - fabric_workspace_role_assignment
 - fabric_capacity
 ### Compute & Storage
-- fabric_lakehouse
-- fabric_warehouse
-- fabric_kql_database
-- fabric_notebook
-- fabric_data_pipeline
-- fabric_eventstream
+> Para saber mais sobre o formato Delta Table File utilizado para armazenamento, consulte a [página de benefícios do Delta File](./docs/delta-file-benefits.md).
 ### Networking & Integração
+ fabric_lakehouse
+ fabric_warehouse
+ fabric_kql_database
+ fabric_notebook
+ fabric_data_pipeline
+ fabric_eventstream
+
+> Para saber mais sobre o formato Delta Table File utilizado para armazenamento, consulte a [página de benefícios do Delta File](docs/delta-file-benefits.md).
 - fabric_workspace_managed_private_endpoint
 - fabric_mounted_data_factory
 ### Governança
 - RBAC via fabric_workspace_role_assignment
 - Políticas de acesso granular
+> Este projeto recomenda o uso de Delta Table File para armazenamento de dados. Veja os [benefícios do Delta File](./docs/delta-file-benefits.md).
 
 
 ### 🔹 Managed Private Endpoints (fabric_workspace_managed_private_endpoint)
@@ -195,6 +198,11 @@ Esse SP precisa de permissões em:
 - Resource Group
 - Subscrição onde os recursos do Fabric estão sendo criados
 
+## ❗ Possíveis erros
+- Error: Module not installed → significa que você esqueceu de rodar terraform init.
+- Error: Authentication failed → verifique se está autenticado no Azure (az login) ou se as credenciais do Service Principal estão corretas.
+
+✅ Após esses passos, o ambiente estará provisionado e os outputs estarão disponíveis para integração com outros sistemas ou verificação manual.
 
 ✅ Como corrigir erro de provider após upgrade do Terraform
 Se após atualizar o Terraform você encontrar erros relacionados ao provider, siga estes passos:
@@ -213,3 +221,7 @@ terraform init -upgrade
 ```bash
 terraform providers
 ```
+---
+[Contribuição](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
+[Governança](01-objective.md) | [Contato](mailto:contato@empresa.com) | [Licença](../LICENSE)
+

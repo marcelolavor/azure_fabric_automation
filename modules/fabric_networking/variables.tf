@@ -39,9 +39,9 @@ Formato:
     name         = "mdf-adf-prd"
     display_name = "ADF Produção"
     format       = "DataFactoryV2"
-    definition   = jsonencode({
+    definition   = {
                       dataFactoryId = "<ARM_ID_ADF>"
-                   })
+                   }
   }
 ]
 EOT
@@ -49,7 +49,7 @@ EOT
     name         = string
     display_name = string
     format       = string
-    definition   = string
+    definition   = any
   }))
   default = []
 }
