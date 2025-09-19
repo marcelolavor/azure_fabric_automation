@@ -68,7 +68,8 @@ module "lakehouse" {
 Este projeto utiliza Terraform para automatizar a criação e gestão de ambientes no Microsoft Fabric (DEV, PRE e PRD).
 
 ### 📌 Pré-requisitos
-- Terraform >= 1.9
+- Terraform >= 1.8, < 2.0
+- Microsoft Fabric Provider 1.6.0
 - Acesso ao Azure com permissões para criar recursos do Fabric
 - Variável de ambiente/secret AZURE_CREDENTIALS configurada no formato JSON de um Service Principal (se estiver rodando em CI/CD)
 
@@ -116,8 +117,11 @@ terraform output -json | jq
 - Backend remoto (Azure Storage + Key Vault) para guardar state com segurança.
 - Variáveis sensíveis: armazenadas no Key Vault e referenciadas via data source.
 
-## 🧩 Recursos disponíveis no Provider 1.5.0
-Segundo o changelog do release 1.5.0 (04/09/2025), temos suporte aos seguintes recursos:
+## 🧩 Recursos disponíveis no Provider 1.6.0
+Segundo o changelog do release mais recente (v0.0.1 - setembro/2025), temos suporte aos seguintes recursos:
+
+> 📋 **Release Notes**: Para detalhes completos sobre releases, correções e roadmap, consulte a [documentação de releases](releases/README.md).
+
 ### Core
 - fabric_workspace
 - fabric_workspace_role_assignment
@@ -143,19 +147,23 @@ Segundo o changelog do release 1.5.0 (04/09/2025), temos suporte aos seguintes r
 
 ### 🔹 Managed Private Endpoints (fabric_workspace_managed_private_endpoint)
 
-No provider 1.5.0, os atributos obrigatórios são:
+No provider 1.6.0, os atributos obrigatórios são:
 - workspace_id
 - name
 - target_private_link_resource_id (ARM ID do recurso alvo)
 - target_subresource_type (ex.: "blob" para Storage, "sqlServer" para SQL)
 - request_message (opcional, mas recomendado)
 
-### 🔹 Mounted Data Factories (fabric_mounted_data_factory
-Na release 1.5.0, esse recurso não aceita mais simplesmente data_factory_id. Ele exige:
+> ⚠️ **Status**: Requer configuração preview mode (documentado em [v0.0.1](releases/v0.0.1.md))
+
+### 🔹 Mounted Data Factories (fabric_mounted_data_factory)
+Na release 1.6.0, esse recurso não aceita mais simplesmente data_factory_id. Ele exige:
 - workspace_id
 - display_name (nome lógico visível no Fabric)
 - format (ex.: "DataFactoryV2")
 - definition (bloco JSON ou string com a definição da conexão do ADF)
+
+> ⚠️ **Status**: Schema em investigação (documentado em [v0.0.1](releases/v0.0.1.md))
 
 ## 🧪 Testes Terraform
 
@@ -223,5 +231,5 @@ terraform providers
 ```
 ---
 [Contribuição](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
-[Governança](01-objective.md) | [Contato](mailto:contato@empresa.com) | [Licença](../LICENSE)
+[Governança](01-objective.md) | [Contato](mailto:contato@empresa.com) | [Licença](../LICENSE) | [**📋 Release Notes**](releases/README.md)
 
