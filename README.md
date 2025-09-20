@@ -1,26 +1,26 @@
-[Início](docs/README.md) | [Objetivo](docs/01-objective.md) | [Escopo](docs/02-scope.md) | [Processo](docs/03-process-overview.md) | [Controle de Mudanças](docs/04-change-control.md) | [Riscos](docs/05-risks.md) | [Ferramentas](docs/06-tools.md) | [Timeline](docs/07-timeline.md) | [Critérios de Sucesso](docs/08-success-criteria.md) | 
-[Conclusão](docs/09-conclusion.md) | 
+[Start](docs/README.md) | [Objective](docs/01-objective.md) | [Scope](docs/02-scope.md) | [Process](docs/03-process-overview.md) | [Change Control](docs/04-change-control.md) | [Risks](docs/05-risks.md) | [Tools](docs/06-tools.md) | [Timeline](docs/07-timeline.md) | [Success Criteria](docs/08-success-criteria.md) | 
+[Conclusion](docs/09-conclusion.md) | 
 [Delta Table Files](docs/delta-file-benefits.md)
 
 ---
 # Azure Fabric Automation
-Automação de recursos do Azure Fabric usando Terraform, seguindo as melhores práticas de infraestrutura como código (IaC).
+Azure Fabric resource automation using Terraform, following infrastructure as code (IaC) best practices.
 
-## 📂 Estrutura do projeto
+## 📂 Project structure
 ```
 terraform-fabric/
 │
 ├── global/
-│   ├── variables.tf          # Variáveis globais (tags, convenções de nomes)
-│   ├── providers.tf          # Configuração do provider + backend remoto
-│   ├── main.tf               # Configurações comuns
+│   ├── variables.tf          # Global variables (tags, naming conventions)
+│   ├── providers.tf          # Provider configuration + remote backend
+│   ├── main.tf               # Common configurations
 │   └── outputs.tf
 │
 ├── modules/
-│   ├── fabric_workspace/     # Criação de workspaces + roles
-│   ├── fabric_capacity/      # Capacities (dedicadas/compartilhadas)
+│   ├── fabric_workspace/     # Workspace creation + roles
+│   ├── fabric_capacity/      # Capacities (dedicated/shared)
 │   ├── fabric_items/         # Lakehouses, Warehouses, Pipelines, Notebooks
-│   ├── fabric_networking/    # Managed private endpoints, data factories montadas
+│   ├── fabric_networking/    # Managed private endpoints, mounted data factories
 │   └── fabric_admin/         # RBAC, role assignments, governance
 │
 ├── envs/
@@ -34,11 +34,11 @@ terraform-fabric/
 │       ├── main.tf
 │       └── terraform.tfvars
 │
-└── README.md                 # Documentação inicial
+└── README.md                 # Initial documentation
 ```
 
-## 🚀 Exemplo de uso
-No arquivo `envs/dev/main.tf`, podemos ter:
+## 🚀 Usage example
+In the `envs/dev/main.tf` file, we can have:
 
 ```hcl
 module "capacity" {
@@ -64,71 +64,94 @@ module "lakehouse" {
 }
 ```
 
-## 🚀 Primeira execução do projeto Azure Fabric Automation
-Este projeto utiliza Terraform para automatizar a criação e gestão de ambientes no Microsoft Fabric (DEV, PRE e PRD).
+## 🚀 First execution of the Azure Fabric Automation project
+This project uses Terraform to automate the creation and management of Microsoft Fabric environments (DEV, PRE and PRD).
 
-### 📌 Pré-requisitos
+### 📌 Prerequisites
 - Terraform >= 1.8, < 2.0
 - Microsoft Fabric Provider 1.6.0
-- Acesso ao Azure com permissões para criar recursos do Fabric
-- Variável de ambiente/secret AZURE_CREDENTIALS configurada no formato JSON de um Service Principal (se estiver rodando em CI/CD)
+- Azure access with permissions to create Fabric resources
+- Environment variable/secret AZURE_CREDENTIALS configured in Service Principal JSON format (if running in CI/CD)
 
-### ⚡ Passo a passo para a primeira execução
-1. Escolha o ambiente que deseja aplicar (dev, pre ou prd):
+### az login
+Ensure you are authenticated in Azure CLI:
+```bash
+az login --tenant "bf86fbdb-f8c2-440e-923c-05a60dc2bc9b" --scope "https://management.azure.com/.default"
+az account set --subscription "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+### ⚡ Step-by-step for first execution
+1. Choose the environment you want to apply (dev, pre or prd):
 ```bash 
 cd envs/dev
-# ou
+# or
 cd envs/pre
-# ou
+# or
 cd envs/prd
 ```
 
-2. Inicialize o Terraform para baixar os módulos e providers necessários:
+2. Initialise Terraform to download necessary modules and providers:
 ```bash
 terraform init
 ```
-🔎 Este passo deve ser feito sempre na primeira execução ou se houver alterações de módulos.
+🔎 This step must be done on first execution or if there are module changes.
 
-3. Visualize o plano de execução:
+3. View the execution plan:
 ```bash
 terraform plan -var-file="terraform.tfvars"
 ```
 
-4. Aplicar a configuração:
+> 📝 **Note**: As the `-out` option above is not used to save this plan, Terraform cannot guarantee that it will execute exactly these actions if you run `terraform apply` at this point. To ensure exact execution of the plan, always save it and then apply the generated file:
+> ```bash
+> # Save the plan to a file
+> terraform plan -out=tfplan -var-file="terraform.tfvars"
+> 
+> # Apply the saved plan
+> terraform apply "tfplan"
+> ```
+
+4. Apply the configuration:
+If you saved the plan in the previous step, apply the plan file:
+```bash
+terraform apply "tfplan"
+```
+> 📝 **Note**: The `terraform apply "tfplan"` command applies the plan directly, without asking for confirmation, as the plan has already been reviewed.
+
+Alternatively, if you didn't save the plan, you can apply directly, but Terraform will create a new plan:
 ```bash
 terraform apply -auto-approve -var-file="terraform.tfvars"
 ```
 
-5. Consultar os outputs consolidados (capacity, workspace, items, networking, admin):
+5. Check consolidated outputs (capacity, workspace, items, networking, admin):
 ```bash
 terraform output -json | jq
 ```
 
-## 🎯 Boas práticas
+## 🎯 Best practices
 
-- Governança: prevent_destroy = true em PRD para workspaces/capacities.
-- Tags obrigatórias: project, env, owner, cost_center.
+- Governance: prevent_destroy = true in PRD for workspaces/capacities.
+- Mandatory tags: project, env, owner, cost_centre.
 - Naming Convention:
 ```
-    <fabric>-<env>-<tipo>-<nome>
+    <fabric>-<env>-<type>-<name>
     ex: fabric-dev-ws-datahub
 ```
-- Ambientes isolados: cada pasta envs/ tem seu main.tf chamando módulos reutilizáveis.
-- Backend remoto (Azure Storage + Key Vault) para guardar state com segurança.
-- Variáveis sensíveis: armazenadas no Key Vault e referenciadas via data source.
+- Isolated environments: each envs/ folder has its main.tf calling reusable modules.
+- Remote backend (Azure Storage + Key Vault) to store state securely.
+- Sensitive variables: stored in Key Vault and referenced via data source.
 
-## 🧩 Recursos disponíveis no Provider 1.6.0
-Segundo o changelog do release mais recente (v0.0.1 - setembro/2025), temos suporte aos seguintes recursos:
+## 🧩 Available resources in Provider 1.6.0
+According to the latest release changelog (v0.0.1 - September/2025), we have support for the following resources:
 
-> 📋 **Release Notes**: Para detalhes completos sobre releases, correções e roadmap, consulte a [documentação de releases](releases/README.md).
+> 📋 **Release Notes**: For complete details about releases, fixes and roadmap, see the [releases documentation](releases/README.md).
 
 ### Core
 - fabric_workspace
 - fabric_workspace_role_assignment
 - fabric_capacity
 ### Compute & Storage
-> Para saber mais sobre o formato Delta Table File utilizado para armazenamento, consulte a [página de benefícios do Delta File](./docs/delta-file-benefits.md).
-### Networking & Integração
+> To learn more about the Delta Table File format used for storage, see the [Delta File benefits page](./docs/delta-file-benefits.md).
+### Networking & Integration
  fabric_lakehouse
  fabric_warehouse
  fabric_kql_database
@@ -136,63 +159,63 @@ Segundo o changelog do release mais recente (v0.0.1 - setembro/2025), temos supo
  fabric_data_pipeline
  fabric_eventstream
 
-> Para saber mais sobre o formato Delta Table File utilizado para armazenamento, consulte a [página de benefícios do Delta File](docs/delta-file-benefits.md).
+> To learn more about the Delta Table File format used for storage, see the [Delta File benefits page](docs/delta-file-benefits.md).
 - fabric_workspace_managed_private_endpoint
 - fabric_mounted_data_factory
-### Governança
+### Governance
 - RBAC via fabric_workspace_role_assignment
-- Políticas de acesso granular
-> Este projeto recomenda o uso de Delta Table File para armazenamento de dados. Veja os [benefícios do Delta File](./docs/delta-file-benefits.md).
+- Granular access policies
+> This project recommends using Delta Table File for data storage. See the [Delta File benefits](./docs/delta-file-benefits.md).
 
 
 ### 🔹 Managed Private Endpoints (fabric_workspace_managed_private_endpoint)
 
-No provider 1.6.0, os atributos obrigatórios são:
+In provider 1.6.0, the mandatory attributes are:
 - workspace_id
 - name
-- target_private_link_resource_id (ARM ID do recurso alvo)
-- target_subresource_type (ex.: "blob" para Storage, "sqlServer" para SQL)
-- request_message (opcional, mas recomendado)
+- target_private_link_resource_id (ARM ID of target resource)
+- target_subresource_type (e.g.: "blob" for Storage, "sqlServer" for SQL)
+- request_message (optional, but recommended)
 
-> ⚠️ **Status**: Requer configuração preview mode (documentado em [v0.0.1](releases/v0.0.1.md))
+> ⚠️ **Status**: Requires preview mode configuration (documented in [v0.0.1](releases/v0.0.1.md))
 
 ### 🔹 Mounted Data Factories (fabric_mounted_data_factory)
-Na release 1.6.0, esse recurso não aceita mais simplesmente data_factory_id. Ele exige:
+In release 1.6.0, this resource no longer accepts simply data_factory_id. It requires:
 - workspace_id
-- display_name (nome lógico visível no Fabric)
-- format (ex.: "DataFactoryV2")
-- definition (bloco JSON ou string com a definição da conexão do ADF)
+- display_name (logical name visible in Fabric)
+- format (e.g.: "DataFactoryV2")
+- definition (JSON block or string with ADF connection definition)
 
-> ⚠️ **Status**: Schema em investigação (documentado em [v0.0.1](releases/v0.0.1.md))
+> ⚠️ **Status**: Schema under investigation (documented in [v0.0.1](releases/v0.0.1.md))
 
-## 🧪 Testes Terraform
+## 🧪 Terraform Testing
 
-Para garantir a qualidade e segurança da infraestrutura, recomenda-se utilizar testes automatizados com o Terraform. Algumas abordagens e ferramentas:
+To ensure infrastructure quality and security, it's recommended to use automated testing with Terraform. Some approaches and tools:
 
-- **terraform validate**: Valida a sintaxe e a estrutura dos arquivos.
+- **terraform validate**: Validates file syntax and structure.
   ```bash
   terraform validate
   ```
-- **terraform plan**: Simula a aplicação das mudanças e permite revisão antes do deploy.
+- **terraform plan**: Simulates the application of changes and allows review before deployment.
   ```bash
   terraform plan
   ```
-- **terraform fmt -check**: Garante o padrão de formatação do código.
+- **terraform fmt -check**: Ensures code formatting standards.
   ```bash
   terraform fmt -check
   ```
-- **terraform test** (experimental): Permite criar testes automatizados para módulos e recursos.
+- **terraform test** (experimental): Allows creating automated tests for modules and resources.
   ```bash
   terraform test
   ```
-- **tflint**: Ferramenta externa para lint e boas práticas.
+- **tflint**: External tool for linting and best practices.
   ```bash
   tflint
   ```
-> Recomenda-se integrar esses comandos em pipelines CI/CD para garantir validação contínua.
+> It's recommended to integrate these commands into CI/CD pipelines to ensure continuous validation.
 
-## 🔑 Configuração necessária no GitHub
-Criar o secret AZURE_CREDENTIALS no repositório, com JSON de um Service Principal:
+## 🔑 Required GitHub configuration
+Create the AZURE_CREDENTIALS secret in the repository, with Service Principal JSON:
 ```bash
 {
   "clientId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -202,34 +225,34 @@ Criar o secret AZURE_CREDENTIALS no repositório, com JSON de um Service Princip
 }
 ```
 
-Esse SP precisa de permissões em:
+This SP needs permissions on:
 - Resource Group
-- Subscrição onde os recursos do Fabric estão sendo criados
+- Subscription where Fabric resources are being created
 
-## ❗ Possíveis erros
-- Error: Module not installed → significa que você esqueceu de rodar terraform init.
-- Error: Authentication failed → verifique se está autenticado no Azure (az login) ou se as credenciais do Service Principal estão corretas.
+## ❗ Possible errors
+- Error: Module not installed → means you forgot to run terraform init.
+- Error: Authentication failed → check if you are authenticated in Azure (az login) or if the Service Principal credentials are correct.
 
-✅ Após esses passos, o ambiente estará provisionado e os outputs estarão disponíveis para integração com outros sistemas ou verificação manual.
+✅ After these steps, the environment will be provisioned and outputs will be available for integration with other systems or manual verification.
 
-✅ Como corrigir erro de provider após upgrade do Terraform
-Se após atualizar o Terraform você encontrar erros relacionados ao provider, siga estes passos:
+✅ How to fix provider error after Terraform upgrade
+If after updating Terraform you encounter provider-related errors, follow these steps:
 
-1. Apague o cache local e o lockfile no diretório do ambiente:
+1. Delete local cache and lockfile in the environment directory:
 ```bash
 rm -rf .terraform .terraform.lock.hcl
 ```
 
-2. Refaça o init:
+2. Re-run init:
 ```bash
 terraform init -upgrade
 ```
 
-3. Verifique os providers usados:
+3. Check used providers:
 ```bash
 terraform providers
 ```
 ---
-[Contribuição](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
-[Governança](01-objective.md) | [Contato](mailto:contato@empresa.com) | [Licença](../LICENSE) | [**📋 Release Notes**](releases/README.md)
+[Contributing](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
+[Governance](01-objective.md) | [Contact](mailto:contato@empresa.com) | [Licence](../LICENSE) | [**📋 Release Notes**](releases/README.md)
 

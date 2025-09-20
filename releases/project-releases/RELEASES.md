@@ -1,10 +1,10 @@
 # Release Notes - Azure Fabric Automation
 
-Este documento mantém o histórico de releases e melhorias implementadas no projeto de automação do Microsoft Fabric via Terraform.
+This document maintains the release history and improvements implemented in the Microsoft Fabric automation project via Terraform.
 
 ## Release v0.0.1 - Initial Development Release
-**Data:** 2025-09-19  
-**Autor:** Release Engineering Team  
+**Date:** 2025-09-19  
+**Author:** Release Engineering Team  
 
 ### 🎯 **Objetivos do Release**
 - Estabelecer infraestrutura base para Microsoft Fabric via Terraform

@@ -1,28 +1,28 @@
 # Fabric Admin Module
 
-Este módulo lida com aspectos administrativos do Microsoft Fabric (RBAC extra e policies simuladas) enquanto o provider oficial não expõe um recurso nativo de "fabric_policy".
+This module handles administrative aspects of Microsoft Fabric (extra RBAC and simulated policies) whilst the official provider does not expose a native "fabric_policy" resource.
 
 ## 📌 Policies (Limited Support)
 
-**Status oficial (Set/2024):** O Microsoft Fabric REST API **não oferece endpoint genérico** para políticas de governança. Apenas:
+**Official status (Sep/2024):** The Microsoft Fabric REST API **does not offer a generic endpoint** for governance policies. Only:
 
 ✅ **Network Communication Policy** (preview): 
 - `PUT /v1/workspaces/{workspaceId}/networking/communicationPolicy`
-- Suportado via script
+- Supported via script
 
-❌ **General Governance Policies**: Não há endpoint oficial para:
+❌ **General Governance Policies**: There is no official endpoint for:
 - Naming conventions
-- RBAC personalizadas 
+- Custom RBAC 
 - Compliance rules
 - Data quality policies
 
-### Workaround Atual
+### Current Workaround
 - `null_resource` + `local-exec`
-- Script Python `scripts/apply_fabric_policies.py` que:
-  - Aplica Network Communication Policy via REST API oficial
-  - Simula/registra outras policies (aguardando endpoints futuros)
+- Python script `scripts/apply_fabric_policies.py` that:
+  - Applies Network Communication Policy via official REST API
+  - Simulates/registers other policies (awaiting future endpoints)
 
-### Exemplo: Network Communication Policy
+### Example: Network Communication Policy
 ```hcl
 module "admin" {
   source              = "../../modules/fabric_admin"
@@ -41,7 +41,7 @@ module "admin" {
 }
 ```
 
-### Exemplo: Policy Placeholder (aguardando endpoint)
+### Example: Policy Placeholder (awaiting endpoint)
 ```hcl
 policies = [
   {
@@ -55,14 +55,14 @@ policies = [
 ]
 ```
 
-### Alternativas para Governança Geral
-Enquanto endpoints oficiais não são disponibilizados:
-- **Azure Policy**: Governança a nível de infraestrutura Azure
+### Alternatives for General Governance
+Whilst official endpoints are not available:
+- **Azure Policy**: Infrastructure-level governance for Azure
 - **Microsoft Purview**: Data classification, protection policies  
-- **PowerBI Admin API**: Legacy governance (herança no Fabric)
+- **PowerBI Admin API**: Legacy governance (inheritance in Fabric)
 - **Custom governance**: Scripts + inventory + compliance dashboards
 
-### Variáveis
+### Variables
 ```hcl
 variable "policies" {
   type = list(object({
@@ -78,7 +78,7 @@ variable "enable_policy_apply" {
 }
 ```
 
-### Exemplo de uso no ambiente
+### Example usage in environment
 ```hcl
 module "admin" {
   source              = "../../modules/fabric_admin"
@@ -97,25 +97,25 @@ module "admin" {
 }
 ```
 
-### Rodando aplicação das policies
-Habilite `enable_policy_apply = true` somente após analisar o plano.
+### Running policy application
+Enable `enable_policy_apply = true` only after analysing the plan.
 
-### Pipeline sugerido
-1. `terraform plan` – valida sintaxe e exibe policies a aplicar.
-2. Revisão e aprovação (Change Management).
-3. `terraform apply` – executa `null_resource` e script.
-4. **Network Communication Policy**: Aplicada via REST API oficial.
-5. **Outras policies**: Registradas para auditoria/compliance futura.
+### Suggested pipeline
+1. `terraform plan` – validates syntax and displays policies to apply.
+2. Review and approval (Change Management).
+3. `terraform apply` – executes `null_resource` and script.
+4. **Network Communication Policy**: Applied via official REST API.
+5. **Other policies**: Registered for future auditing/compliance.
 
-### Limitações
-- **Apenas Network Communication Policy** tem endpoint real.
-- Outras policies são simuladas (logs + triggers para idempotência).
-- Governance geral requer ferramentas complementares (Azure Policy, Purview).
+### Limitations
+- **Only Network Communication Policy** has a real endpoint.
+- Other policies are simulated (logs + triggers for idempotency).
+- General governance requires complementary tools (Azure Policy, Purview).
 
-### Próximos Passos
-- Monitor roadmap Fabric para novos endpoints de policies.
-- Implementar governance via Azure Policy + Purview enquanto aguarda.
-- Considerar PowerBI Admin API para casos específicos (herança).
+### Next Steps
+- Monitor Fabric roadmap for new policy endpoints.
+- Implement governance via Azure Policy + Purview whilst waiting.
+- Consider PowerBI Admin API for specific cases (inheritance).
 
 ---
-Licença: Apache 2.0
+Licence: Apache 2.0

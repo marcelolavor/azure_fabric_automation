@@ -1,6 +1,6 @@
 # Provider Releases - Microsoft Fabric
 
-Este diretório rastreia as **versões do Provider Microsoft Fabric** e seu impacto no nosso projeto.
+This directory tracks **Microsoft Fabric Provider versions** and their impact on our project.
 
 ## 📦 **Provider Version History**
 

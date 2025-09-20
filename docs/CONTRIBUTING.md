@@ -1,5 +1,5 @@
-[Início](README.md) | [Objetivo](01-objective.md) | [Escopo](02-scope.md) | [Processo](03-process-overview.md) | [Controle de Mudanças](04-change-control.md) | [Riscos](05-risks.md) | [Ferramentas](06-tools.md) | [Timeline](07-timeline.md) | [Critérios de Sucesso](08-success-criteria.md) | 
-[Conclusão](09-conclusion.md) | 
+[Home](README.md) | [Objective](01-objective.md) | [Scope](02-scope.md) | [Process](03-process-overview.md) | [Change Control](04-change-control.md) | [Risks](05-risks.md) | [Tools](06-tools.md) | [Timeline](07-timeline.md) | [Success Criteria](08-success-criteria.md) | 
+[Conclusion](09-conclusion.md) | 
 [Delta Table Files](delta-file-benefits.md)
 
 ---
@@ -86,7 +86,7 @@ Use the official templates for consistency:
 - Governance Committee: validates policy compliance.
 - Changes may be requested before approval.
 
-## 📌 9. License & Ownership
+## 📌 9. Licence & Ownership
 - All documentation is corporate intellectual property.
 - Contributions may be edited for compliance.
 - External reuse requires formal approval.
@@ -96,5 +96,5 @@ For questions about contribution or governance standards contact:
 - Governance Committee – Cloud & Data
 
 ---
-[Contribuição](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
-[Governança](01-objective.md) | [Contato](mailto:contato@empresa.com) | [Licença](../LICENSE)
+[Contributing](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
+[Governance](01-objective.md) | [Contact](mailto:contato@empresa.com) | [Licence](../LICENSE)

@@ -1,5 +1,5 @@
-[Início](README.md) | [Objetivo](01-objective.md) | [Escopo](02-scope.md) | [Processo](03-process-overview.md) | [Controle de Mudanças](04-change-control.md) | [Riscos](05-risks.md) | [Ferramentas](06-tools.md) | [Timeline](07-timeline.md) | [Critérios de Sucesso](08-success-criteria.md) | 
-[Conclusão](09-conclusion.md) | 
+[Home](README.md) | [Objective](01-objective.md) | [Scope](02-scope.md) | [Process](03-process-overview.md) | [Change Control](04-change-control.md) | [Risks](05-risks.md) | [Tools](06-tools.md) | [Timeline](07-timeline.md) | [Success Criteria](08-success-criteria.md) | 
+[Conclusion](09-conclusion.md) | 
 [Delta Table Files](delta-file-benefits.md)
 
 ---
@@ -21,27 +21,27 @@ The documents are structured to follow best practices from leading enterprises (
 
 
 All diagrams and illustrations are stored in:
-- [Estrutura GitHub](./images/estrutura-github.png)
-- [Fluxo Change Management IaC](./images/fluxo-change-management-iac.png)
-- [Fluxo end2end](./images/fluxo-end2end.png)
-- [Fluxo end2end 2](./images/fluxo-end2end-2.png)
+- [GitHub Structure](./images/estrutura-github.png)
+- [IaC Change Management Flow](./images/fluxo-change-management-iac.png)
+- [End-to-end Flow](./images/fluxo-end2end.png)
+- [End-to-end Flow 2](./images/fluxo-end2end-2.png)
 - [Delta Table Format](./images/delta-table-format.png)
-- [Process flow](./images/process-flow.png)
+- [Process Flow](./images/process-flow.png)
 
-Para inserir uma imagem em qualquer documento Markdown deste diretório, utilize o caminho relativo a partir do arquivo, por exemplo:
-
-```markdown
-![Nome da imagem](./images/estrutura-github.png)
-```
-
-Para inserir uma imagem em qualquer documento Markdown deste diretório, utilize o caminho relativo a partir do arquivo, por exemplo:
+To insert an image in any Markdown document in this directory, use the relative path from the file, for example:
 
 ```markdown
-![Nome da imagem](./images/estrutura-github.png)
+![Image name](./images/estrutura-github.png)
+```
+
+To insert an image in any Markdown document in this directory, use the relative path from the file, for example:
+
+```markdown
+![Image name](./images/estrutura-github.png)
 ```
 
 
-<strong>Produto</strong>
+<strong>Product</strong>
 
   - [Tools](./06-tools.md)
   - [Timeline](./07-timeline.md)
@@ -55,5 +55,5 @@ Para inserir uma imagem em qualquer documento Markdown deste diretório, utilize
 
 ---
 
-[Contribuição](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
-[Governança](01-objective.md) | [Contato](mailto:contato@empresa.com) | [Licença](../LICENSE)
+[Contributing](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
+[Governance](01-objective.md) | [Contact](mailto:contato@empresa.com) | [Licence](../LICENSE)

@@ -1,15 +1,15 @@
 # Project Releases - Azure Fabric Automation
 
-Este diretório contém os releases e milestones do **nosso desenvolvimento interno**.
+This directory contains the releases and milestones of **our internal development**.
 
 ## 🚀 **Active Development Releases**
 
 ### **v0.0.1** - Initial Development Release  
-**Data:** 2025-09-19 | **Provider:** Microsoft Fabric 1.6.0  
+**Date:** 2025-09-19 | **Provider:** Microsoft Fabric 1.6.0  
 [📋 Release Notes](v0.0.1.md) | [📖 Technical Details](RELEASES.md)
 
 **Status:** ✅ **RELEASED**
-- ✅ 11 recursos Terraform funcionais
+- ✅ 11 functional Terraform resources
 - ✅ Terraform plan success (0 errors)
 - ✅ Provider upgrade 1.5.0 → 1.6.0
 - 🚧 2 preview features pending
@@ -39,7 +39,7 @@ Este diretório contém os releases e milestones do **nosso desenvolvimento inte
 
 **Objectives:**
 - 🎯 Full testing suite and validation
-- 🎯 Performance optimization
+- 🎯 Performance optimisation
 - 🎯 Production readiness certification
 
 ---

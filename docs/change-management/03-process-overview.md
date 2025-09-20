@@ -1,49 +1,49 @@
-# 📌 Conceito: Staging de Governança Terraform
+# 📌 Concept: Terraform Governance Staging
 
-A ideia é criar uma camada intermediária antes da adoção do novo padrão de IaC:
+The idea is to create an intermediate layer before adopting the new IaC standard:
 
-**Descoberta (Discovery)**
-- Levantamento de recursos via API/Azure CLI/az2tf/terraformer.
-- Coletar estados existentes (terraform.tfstate, se houver).
-- Consolidar em um repositório staging (JSON/CSV/Delta).
+**Discovery**
+- Resource survey via API/Azure CLI/az2tf/terraformer.
+- Collect existing states (terraform.tfstate, if any).
+- Consolidate into a staging repository (JSON/CSV/Delta).
 
-**Importação controlada (Staging State)**
-- Usar terraform import para vincular recursos reais a um workspace de staging.
-- Não aplicar terraform apply ainda — apenas mapear o estado.
-- Gerar arquivos HCL (semi-automatizado).
+**Controlled Import (Staging State)**
+- Use terraform import to link real resources to a staging workspace.
+- Do not apply terraform apply yet — just map the state.
+- Generate HCL files (semi-automated).
 
-**Catálogo de Recursos (Inventory Board)**
-- Listar todos os recursos no staging.
-- Marcar status: legacy, imported, ready-for-migration, migrated.
-- Criar tags ou metadados no repositório (ex.: YAML ou Delta Table) para rastrear.
+**Resource Catalogue (Inventory Board)**
+- List all resources in staging.
+- Mark status: legacy, imported, ready-for-migration, migrated.
+- Create tags or metadata in repository (e.g., YAML or Delta Table) for tracking.
 
-**Migração incremental (Governed IaC)**
-- Selecionar um recurso ou grupo de recursos.
-- Refatorar código Terraform conforme padrão de governança (naming convention, módulos, variáveis globais).
-- Executar terraform plan com aprovação em Change Management.
-- Após aprovação, migrar para novo repositório de IaC (produção).
+**Incremental Migration (Governed IaC)**
+- Select a resource or group of resources.
+- Refactor Terraform code according to governance standard (naming convention, modules, global variables).
+- Execute terraform plan with Change Management approval.
+- After approval, migrate to new IaC repository (production).
 
-**Controle de Change Management**
-- Workflow GitHub Actions/Azure DevOps com aprovação obrigatória.
-- Geração de relatórios (o que será alterado, riscos, custo estimado).
-- Logs de auditoria (quem aprovou, quando, para qual recurso).
+**Change Management Control**
+- GitHub Actions/Azure DevOps workflow with mandatory approval.
+- Generate reports (what will be changed, risks, estimated cost).
+- Audit logs (who approved, when, for which resource).
 
-## 📌 Benefícios dessa abordagem
-- Zero risco de perda de dados: nada é destruído sem aprovação.
-- Visibilidade completa: temos inventário e status por recurso.
-- Adoção incremental: migramos apenas o que faz sentido, no ritmo que o time suportar.
-- Governança real: tudo passa por naming convention, tagging, módulos padrões.
-- Change Management integrado: compliance com auditorias (SOX, ISO, etc.).
+## 📌 Benefits of this approach
+- Zero risk of data loss: nothing is destroyed without approval.
+- Complete visibility: we have inventory and status per resource.
+- Incremental adoption: migrate only what makes sense, at the pace the team can support.
+- Real governance: everything goes through naming convention, tagging, standard modules.
+- Integrated Change Management: compliance with audits (SOX, ISO, etc.).
 
-## 📌 Ferramentas que vamos precisar
-- Terraform (óbvio) + terraform import.
-- az2tf / terraformer → geração inicial de código.
-- GitHub Actions ou Azure DevOps Pipelines → controlar fluxo de aprovação (plan → approve → apply).
-- Delta Lake/CSV Inventory → staging dos recursos.
-- Power BI/Fabric Report → dashboard de status da migração.
-- YAML de controle → marcar quais recursos já migraram para o padrão.
+## 📌 Tools we will need
+- Terraform (obvious) + terraform import.
+- az2tf / terraformer → initial code generation.
+- GitHub Actions or Azure DevOps Pipelines → control approval flow (plan → approve → apply).
+- Delta Lake/CSV Inventory → resource staging.
+- Power BI/Fabric Report → migration status dashboard.
+- YAML control → mark which resources have already migrated to the standard.
 
-## 📌 Exemplo de fluxo (Mermaid)
+## 📌 Flow example (Mermaid)
 ```mermaid
 flowchart LR
    A[Discovery] --> B[Staging Repo JSON/Delta]
@@ -56,12 +56,12 @@ flowchart LR
    H --> I[Terraform Apply → New Standard Repo]
 ```
 
-👉 Isso cria duas camadas de Terraform temporárias:
+👉 This creates two temporary Terraform layers:
 
-- **Staging IaC** → inventário + import, sem aplicar mudanças.
-- **Governed IaC** → o novo repositório com padrão oficial.
-[Início](README.md) | [Objetivo](01-objective.md) | [Escopo](02-scope.md) | [Processo](03-process-overview.md) | [Controle de Mudanças](04-change-control.md) | [Riscos](05-risks.md) | [Ferramentas](06-tools.md) | [Timeline](07-timeline.md) | [Critérios de Sucesso](08-success-criteria.md) | 
-[Conclusão](09-conclusion.md) | 
+- **Staging IaC** → inventory + import, without applying changes.
+- **Governed IaC** → the new repository with official standard.
+[Home](README.md) | [Objective](01-objective.md) | [Scope](02-scope.md) | [Process](03-process-overview.md) | [Change Control](04-change-control.md) | [Risks](05-risks.md) | [Tools](06-tools.md) | [Timeline](07-timeline.md) | [Success Criteria](08-success-criteria.md) | 
+[Conclusion](09-conclusion.md) | 
 [Delta Table Files](delta-file-benefits.md)
 
 ---
@@ -81,7 +81,7 @@ The Change Management process is divided into **five phases**:
    - Resources imported into `terraform.tfstate`.  
    - No `apply` execution at this stage.  
 
-3. **Inventory Board (Resource Catalog)**  
+3. **Inventory Board (Resource Catalogue)**  
    - Dashboards generated in Power BI/Fabric.  
    - Resource status classification:  
      - `Legacy` → unmanaged.  
@@ -106,76 +106,76 @@ The Change Management process is divided into **five phases**:
 ![Process Flow](./images/process-flow.png)
 
 
-# Change Management: Processo de Mapeamento e Governança
+# Change Management: Mapping and Governance Process
 
-Quando entramos em um ambiente Azure Fabric já em uso sem governança adequada, a primeira etapa deve ser um mapeamento profundo e automatizado do ambiente, para coletar dados de recursos, configurações, acessos, compliance e naming. Só com essas informações conseguimos propor padrões e um plano de remediação.
+When we enter an Azure Fabric environment already in use without adequate governance, the first step should be a deep and automated mapping of the environment, to collect data on resources, configurations, access, compliance and naming. Only with this information can we propose standards and a remediation plan.
 
-## 📌 Objetivos do levantamento
-- Inventário de todos os recursos Fabric existentes.
-- Auditoria de naming convention (identificação de desvios em relação ao padrão corporativo desejado).
-- Mapeamento de acessos e RBAC (quem tem acesso a quê, e em quais níveis).
-- Levantamento de workspaces, capacities, itens (datasets, reports, dataflows, pipelines, lakehouses, warehouses).
-- Análise de custos e consumo por workspace, capacity e resource group.
-- Compliance de configuração (ex.: workspaces sem políticas de governança, capacities sem limites, conexões sem encriptação).
-- Identificação de órfãos (recursos criados sem owner definido, duplicados ou não utilizados).
+## 📌 Survey objectives
+- Inventory of all existing Fabric resources.
+- Naming convention audit (identification of deviations from the desired corporate standard).
+- Access and RBAC mapping (who has access to what, and at what levels).
+- Survey of workspaces, capacities, items (datasets, reports, dataflows, pipelines, lakehouses, warehouses).
+- Cost and consumption analysis by workspace, capacity and resource group.
+- Configuration compliance (e.g., workspaces without governance policies, capacities without limits, connections without encryption).
+- Identification of orphans (resources created without defined owner, duplicated or unused).
 
-## 📌 Ferramentas necessárias
-Essas automações podem ser compostas em camadas:
+## 📌 Required tools
+These automations can be composed in layers:
 
-### 1. Coleta via CLI/SDK
-- Azure CLI (az fabric quando disponível) para inventário de recursos Azure subjacentes.
-- Microsoft Fabric REST API ([documentação oficial](https://learn.microsoft.com/en-us/rest/api/fabric/)) → permite extrair informações de workspaces, capacities, itens, permissões.
-- Power BI Admin API (herdado no Fabric) para auditoria de datasets, relatórios e acessos.
-- Terraform Provider Fabric (hashicorp ou ms) → apenas para recursos que já estejam em IaC.
+### 1. Collection via CLI/SDK
+- Azure CLI (az fabric when available) for inventory of underlying Azure resources.
+- Microsoft Fabric REST API ([official documentation](https://learn.microsoft.com/en-us/rest/api/fabric/)) → allows extracting information from workspaces, capacities, items, permissions.
+- Power BI Admin API (inherited in Fabric) for auditing datasets, reports and access.
+- Terraform Provider Fabric (hashicorp or ms) → only for resources already in IaC.
 
-### 2. Scripts auxiliares
-- Python → orquestrar chamadas às APIs e consolidar inventário em CSV/Delta Table.
-- PowerShell → pode ser usado para auditoria rápida em ambientes Windows com integração AD.
-- Jupyter Notebooks (Fabric/Databricks) → para análises posteriores em escala.
+### 2. Auxiliary scripts
+- Python → orchestrate API calls and consolidate inventory in CSV/Delta Table.
+- PowerShell → can be used for quick auditing in Windows environments with AD integration.
+- Jupyter Notebooks (Fabric/Databricks) → for subsequent analyses at scale.
 
-### 3. Armazenamento de evidências
-- Delta Tables (bronze layer no Databricks/Fabric Lakehouse) → consolidar inventário histórico.
-- Blob Storage para dumps em CSV/JSON.
-- Log Analytics / Azure Monitor para centralizar auditorias.
+### 3. Evidence storage
+- Delta Tables (bronze layer in Databricks/Fabric Lakehouse) → consolidate historical inventory.
+- Blob Storage for dumps in CSV/JSON.
+- Log Analytics / Azure Monitor to centralise audits.
 
-### 4. Validações de governança
-- Regras de naming convention em Python (regex por ambiente, ex.: prj-[area]-[tipo]-[env]-[seq]).
-- Relatórios de compliance em Power BI/Fabric report, gerados a partir do inventário.
-- Integração com Azure Policy (quando aplicável) para marcar desvios.
+### 4. Governance validations
+- Naming convention rules in Python (regex by environment, e.g., prj-[area]-[type]-[env]-[seq]).
+- Compliance reports in Power BI/Fabric report, generated from inventory.
+- Integration with Azure Policy (when applicable) to mark deviations.
 
-## 📌 Primeiros componentes a desenvolver
-Sugiro iniciar em Python, criando um pacote modular, para manter a escalabilidade:
+## 📌 First components to develop
+I suggest starting in Python, creating a modular package, to maintain scalability:
 
 **Collector**
-- Conexão com APIs (Fabric REST, Power BI Admin, Azure Resource Graph).
-- Exportação para JSON/CSV/Delta.
+- Connection to APIs (Fabric REST, Power BI Admin, Azure Resource Graph).
+- Export to JSON/CSV/Delta.
 
-**Analyzer**
-- Aplicar regras de naming convention.
-- Identificar duplicados, órfãos e recursos sem owner.
+**Analyser**
+- Apply naming convention rules.
+- Identify duplicates, orphans and resources without owner.
 
 **Auditor**
-- Validar RBAC e perfis de acesso.
-- Validar compliance (TLS, encryption, policies).
+- Validate RBAC and access profiles.
+- Validate compliance (TLS, encryption, policies).
 
 **Reporter**
-- Geração de relatórios em CSV/Excel ou inserção em Lakehouse.
-- Dashboards em Fabric/Power BI.
+- Generate reports in CSV/Excel or insert into Lakehouse.
+- Dashboards in Fabric/Power BI.
 
-## 📌 Proposta de início de trabalho
-Criar um script Python inicial (collector) que:
-- Conecta na Fabric REST API.
-- Lista todos os workspaces e capacities.
-- Lista os itens de cada workspace (datasets, pipelines, reports, etc.).
-- Salva em JSON/CSV.
+## 📌 Work start proposal
+Create an initial Python script (collector) that:
+- Connects to Fabric REST API.
+- Lists all workspaces and capacities.
+- Lists items for each workspace (datasets, pipelines, reports, etc.).
+- Saves to JSON/CSV.
 
-Criar um módulo de análise de naming (regex configurável).
-- Marca os itens que não cumprem o padrão esperado.
+Create a naming analysis module (configurable regex).
+- Marks items that do not meet the expected standard.
 
-Evoluir para módulo de auditoria de permissões (via Admin API).
+Evolve to permissions audit module (via Admin API).
 
 
 
 ---
-[Contribuição](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
-[Governança](01-objective.md) | [Contato](mailto:contato@empresa.com) | [Licença](../LICENSE)
+[Contributing](CONTRIBUTING.md) | [Templates](templates/change-request-template.md) | 
+[Governance](01-objective.md) | [Contact](mailto:contato@empresa.com) | [Licence](../LICENSE)

@@ -1,24 +1,24 @@
 # Release Management Overview
 
-Este diretório organiza **dois tipos distintos de releases** para o projeto Azure Fabric Automation.
+This directory organises **two distinct types of releases** for the Azure Fabric Automation project.
 
-## � **Provider Releases vs Project Releases**
+## 📦 **Provider Releases vs Project Releases**
 
 ### **🔧 Provider Releases (Microsoft Fabric)**
-- **Controle**: Microsoft (external dependency)
-- **Impacto**: Recursos e capacidades disponíveis no Terraform
-- **Formato**: Semantic versioning (1.5.0, 1.6.0, etc.)
-- **Documentação**: [provider-releases/](provider-releases/)
+- **Control**: Microsoft (external dependency)
+- **Impact**: Resources and capabilities available in Terraform
+- **Format**: Semantic versioning (1.5.0, 1.6.0, etc.)
+- **Documentation**: [provider-releases/](provider-releases/)
 
 ### **🚀 Project Releases (Azure Fabric Automation)**
-- **Controle**: Nossa equipe (internal milestones)
-- **Impacto**: Features implementadas, correções e melhorias
-- **Formato**: Development versioning (v0.0.1, v0.0.2, etc.)
-- **Documentação**: [project-releases/](project-releases/)
+- **Control**: Our team (internal milestones)
+- **Impact**: Implemented features, fixes and improvements
+- **Format**: Development versioning (v0.0.1, v0.0.2, etc.)
+- **Documentation**: [project-releases/](project-releases/)
 
 ---
 
-## � **Quick Reference Matrix**
+## 📋 **Quick Reference Matrix**
 
 | Project Release | Provider Version | Key Features | Status |
 |----------------|------------------|--------------|---------|
@@ -28,7 +28,7 @@ Este diretório organiza **dois tipos distintos de releases** para o projeto Azu
 
 ---
 
-## � **Release Relationship**
+## 🔄 **Release Relationship**
 
 ```
 Microsoft Provider Releases ──┐
@@ -44,7 +44,7 @@ Our Development Milestones ───┘
 
 ---
 
-## � **Navigation**
+## 📚 **Navigation**
 
 ### **For Developers:**
 - [Project Releases](project-releases/) - Our development milestones

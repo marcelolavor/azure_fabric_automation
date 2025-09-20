@@ -2,7 +2,7 @@
 
 ## 🎯 **Overview**
 
-Este guia documenta como migrar entre versões do Microsoft Fabric Provider, com impacto no nosso projeto.
+This guide documents how to migrate between Microsoft Fabric Provider versions, with impact on our project.
 
 ---
 
@@ -61,7 +61,7 @@ resource "fabric_workspace_role_assignment" "example" {
 
 #### **3. Execute Migration**
 ```bash
-# 1. Initialize with new provider
+# 1. Initialise with new provider
 terraform init -upgrade
 
 # 2. Validate configuration  
@@ -128,7 +128,7 @@ terraform {
 # - Convert principal back to string format
 # - Remove new features
 
-# 3. Re-initialize
+# 3. Re-initialise
 terraform init -upgrade
 
 # 4. Validate rollback
