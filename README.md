@@ -8,24 +8,61 @@ Azure Fabric resource automation using Terraform, following infrastructure as co
 
 ## 📂 Project structure
 ```
-terraform-fabric/
+azure_fabric_automation/
+│
+├── .github/
+│   └── workflows/            # CI/CD pipeline configurations
 │
 ├── global/
-│   ├── variables.tf          # Global variables (tags, naming conventions)
-│   ├── providers.tf          # Provider configuration + remote backend
 │   ├── main.tf               # Common configurations
-│   └── outputs.tf
+│   ├── outputs.tf            # Global outputs
+│   ├── providers.tf          # Provider configuration + remote backend
+│   └── tags/                 # Global tags module
+│       ├── main.tf
+│       ├── outputs.tf
+│       └── variables.tf
 │
 ├── modules/
 │   ├── fabric_workspace/     # Workspace creation + roles
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   └── variables.tf
 │   ├── fabric_capacity/      # Capacities (dedicated/shared)
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   └── variables.tf
 │   ├── fabric_items/         # Lakehouses, Warehouses, Pipelines, Notebooks
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── variables.tf
+│   │   ├── lakehouse.tf
+│   │   ├── warehouse.tf
+│   │   ├── pipeline.tf
+│   │   ├── notebook.tf
+│   │   ├── eventstream.tf
+│   │   └── kql_database.tf
 │   ├── fabric_networking/    # Managed private endpoints, mounted data factories
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── variables.tf
+│   │   ├── mpe.tf            # Managed Private Endpoints
+│   │   └── mdf.tf            # Mounted Data Factories
 │   └── fabric_admin/         # RBAC, role assignments, governance
+│       ├── main.tf
+│       ├── outputs.tf
+│       ├── variables.tf
+│       ├── rbac.tf
+│       ├── policies.tf
+│       ├── README.md
+│       └── scripts/
+│           └── apply_fabric_policies.py
 │
 ├── envs/
 │   ├── dev/
 │   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   ├── variables.tf
 │   │   └── terraform.tfvars
 │   ├── pre/
 │   │   ├── main.tf
@@ -34,7 +71,30 @@ terraform-fabric/
 │       ├── main.tf
 │       └── terraform.tfvars
 │
-└── README.md                 # Initial documentation
+├── docs/                     # Comprehensive documentation
+│   ├── README.md
+│   ├── 01-objective.md
+│   ├── 02-scope.md
+│   ├── 03-process-overview.md
+│   ├── 05-risks.md
+│   ├── 08-success-criteria.md
+│   ├── CONTRIBUTING.md
+│   ├── delta-file-benefits.md
+│   ├── change-management/
+│   ├── technical-stack/
+│   ├── workflow/
+│   ├── templates/
+│   └── images/
+│
+├── releases/                 # Release management and documentation
+│   ├── README.md
+│   ├── project-releases/
+│   └── provider-releases/
+│
+├── fix-providers.sh          # Provider fix utility script
+├── .gitignore
+├── LICENSE
+└── README.md                 # Main project documentation
 ```
 
 ## 🚀 Usage example
@@ -76,7 +136,7 @@ This project uses Terraform to automate the creation and management of Microsoft
 ### az login
 Ensure you are authenticated in Azure CLI:
 ```bash
-az login --tenant "bf86fbdb-f8c2-440e-923c-05a60dc2bc9b" --scope "https://management.azure.com/.default"
+az login --tenant "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" --scope "https://management.azure.com/.default"
 az account set --subscription "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 ```
 
